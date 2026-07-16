@@ -1,11 +1,11 @@
 import React from 'react'
 import type { SiteSetting } from '@/payload-types'
-import { mediaURL } from '@/lib/media'
+import { backgroundURL } from '@/lib/media'
 import { WhatsAppButton } from '../WhatsAppButton'
 
 export function Hero({ settings }: { settings: SiteSetting }) {
   const hero = settings.hero
-  const bg = mediaURL(hero?.image)
+  const bg = backgroundURL(hero?.image, 1920)
   const headline = hero?.headline || settings.siteName
   const sub = hero?.subheadline
 

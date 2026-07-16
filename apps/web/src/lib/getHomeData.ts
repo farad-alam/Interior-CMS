@@ -9,7 +9,7 @@ export type SiteLocale = 'en' | 'ar'
 export async function getHomeData(locale: SiteLocale = 'en') {
   const payload = await getPayloadClient()
 
-  const [settings, services, projects, testimonials, faqs] = await Promise.all([
+  const [settings, services, projects, testimonials, team, faqs] = await Promise.all([
     payload.findGlobal({ slug: 'site-settings', locale, depth: 1 }),
     payload.find({ collection: 'services', locale, sort: 'order', limit: 100, depth: 1 }),
     payload.find({
@@ -21,6 +21,7 @@ export async function getHomeData(locale: SiteLocale = 'en') {
       depth: 1,
     }),
     payload.find({ collection: 'testimonials', locale, limit: 12, depth: 1 }),
+    payload.find({ collection: 'team', locale, sort: 'order', limit: 24, depth: 1 }),
     payload.find({ collection: 'faqs', locale, sort: 'order', limit: 20, depth: 1 }),
   ])
 
@@ -29,6 +30,7 @@ export async function getHomeData(locale: SiteLocale = 'en') {
     services: services.docs,
     projects: projects.docs,
     testimonials: testimonials.docs,
+    team: team.docs,
     faqs: faqs.docs,
   }
 }

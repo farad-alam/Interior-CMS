@@ -691,6 +691,14 @@ export interface SiteSetting {
     ctaLabel?: string | null;
   };
   /**
+   * Content for the /about page.
+   */
+  about?: {
+    heading?: string | null;
+    body?: string | null;
+    image?: (number | null) | Media;
+  };
+  /**
    * Brand color as a hex value, e.g. #C9A227.
    */
   primaryColor?: string | null;
@@ -727,6 +735,13 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         subheadline?: T;
         image?: T;
         ctaLabel?: T;
+      };
+  about?:
+    | T
+    | {
+        heading?: T;
+        body?: T;
+        image?: T;
       };
   primaryColor?: T;
   whatsappNumber?: T;

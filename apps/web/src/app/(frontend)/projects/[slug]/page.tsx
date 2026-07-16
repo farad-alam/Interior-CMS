@@ -2,7 +2,7 @@ import React from 'react'
 import { notFound } from 'next/navigation'
 import type { Media } from '@/payload-types'
 import { getProject } from '@/lib/getProject'
-import { mediaURL, mediaAlt } from '@/lib/media'
+import { mediaURL, mediaAlt, responsiveImage, backgroundURL } from '@/lib/media'
 import { BeforeAfter } from '@/components/sections/BeforeAfter'
 import { VideoEmbed } from '@/components/VideoEmbed'
 
@@ -16,9 +16,18 @@ export async function generateMetadata({ params }: Params) {
   const { slug } = await params
   const project = await getProject(slug)
   if (!project) return { title: 'Project not found' }
+  const title = project.seo?.title || project.title
+  const description = project.seo?.description || project.description || undefined
+  const ogImage = backgroundURL(project.coverImage, 1200)
   return {
-    title: project.seo?.title || project.title,
-    description: project.seo?.description || project.description || undefined,
+    title,
+    description,
+    openGraph: {
+      type: 'article',
+      title,
+      description,
+      images: ogImage ? [{ url: ogImage }] : undefined,
+    },
   }
 }
 
@@ -27,11 +36,14 @@ export default async function ProjectPage({ params }: Params) {
   const project = await getProject(slug)
   if (!project) notFound()
 
-  const cover = mediaURL(project.coverImage)
+  const cover = backgroundURL(project.coverImage, 1920)
   const category = typeof project.category === 'object' && project.category ? project.category.title : null
   const gallery = ((project.gallery as (number | Media)[] | undefined) || [])
-    .map((m) => ({ url: mediaURL(m), alt: mediaAlt(m, project.title) }))
-    .filter((m) => m.url)
+    .map((m) => ({
+      ...responsiveImage(m, { widths: [480, 768, 1200], sizes: '(max-width: 900px) 100vw, 33vw' }),
+      alt: mediaAlt(m, project.title),
+    }))
+    .filter((m) => m.src)
   const before = mediaURL(project.beforeImage)
   const after = mediaURL(project.afterImage)
   const meta = [category, project.location, project.year].filter(Boolean).join(' · ')
@@ -96,7 +108,15 @@ export default async function ProjectPage({ params }: Params) {
             <div className="gallery">
               {gallery.map((img, i) => (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img key={i} className="gallery__item" src={img.url} alt={img.alt} />
+                <img
+                  key={i}
+                  className="gallery__item"
+                  src={img.src}
+                  srcSet={img.srcSet}
+                  sizes={img.sizes}
+                  alt={img.alt}
+                  loading="lazy"
+                />
               ))}
             </div>
           </div>

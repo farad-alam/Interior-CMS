@@ -29,6 +29,16 @@ export const SiteSettings: GlobalConfig = {
       ],
     },
     {
+      name: 'about',
+      type: 'group',
+      admin: { description: 'Content for the /about page.' },
+      fields: [
+        { name: 'heading', type: 'text', localized: true },
+        { name: 'body', type: 'textarea', localized: true },
+        { name: 'image', type: 'upload', relationTo: 'media' },
+      ],
+    },
+    {
       name: 'primaryColor',
       type: 'text',
       defaultValue: '#111111',

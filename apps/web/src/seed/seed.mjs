@@ -129,6 +129,11 @@ async function main() {
   await create(token, 'faqs', { question: 'Can you work with my budget?', answer: 'We tailor materials and scope to your budget and are transparent about trade-offs.', order: 3 })
   await create(token, 'faqs', { question: 'Do you work outside Riyadh?', answer: 'Absolutely — we deliver projects across the Kingdom.', order: 4 })
 
+  console.log('→ team')
+  await create(token, 'team', { name: 'Layla Al-Ghamdi', role: 'Founder & Lead Designer', bio: 'Fifteen years shaping homes across the Kingdom, with an eye for warm, liveable luxury.', order: 1 })
+  await create(token, 'team', { name: 'Omar Nasser', role: 'Project Director', bio: 'Keeps every fit-out on time and on budget, from first survey to final styling.', order: 2 })
+  await create(token, 'team', { name: 'Hana Farouk', role: 'Interior Architect', bio: 'Turns tricky layouts into effortless, light-filled spaces.', order: 3 })
+
   console.log('→ site settings')
   await updateGlobal(token, 'site-settings', {
     siteName: 'Atelier Noor',
@@ -139,6 +144,11 @@ async function main() {
       subheadline: 'Bespoke interior design and turnkey fit-out for homes across Saudi Arabia.',
       image: heroImg,
       ctaLabel: 'Get a free consultation',
+    },
+    about: {
+      heading: 'Design rooted in how you live',
+      body: 'Atelier Noor is a Riyadh-based interior design studio creating warm, considered homes across the Kingdom.\nWe believe great interiors start with listening — to how a family gathers, how light moves through a room, and how a space should feel at the end of a long day.\nFrom first sketch to final styling, we handle design and fit-out under one roof, so the result matches the vision exactly.',
+      image: heroImg,
     },
     social: { instagram: 'https://instagram.com', facebook: 'https://facebook.com' },
   })

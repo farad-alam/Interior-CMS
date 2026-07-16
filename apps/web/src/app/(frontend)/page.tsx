@@ -6,6 +6,7 @@ import { Services } from '@/components/sections/Services'
 import { Projects } from '@/components/sections/Projects'
 import { BeforeAfter } from '@/components/sections/BeforeAfter'
 import { Testimonials } from '@/components/sections/Testimonials'
+import { Team } from '@/components/sections/Team'
 import { Faq } from '@/components/sections/Faq'
 import { Contact } from '@/components/sections/Contact'
 
@@ -14,7 +15,7 @@ import { Contact } from '@/components/sections/Contact'
 export const revalidate = 60
 
 export default async function HomePage() {
-  const { settings, services, projects, testimonials, faqs } = await getHomeData('en')
+  const { settings, services, projects, testimonials, team, faqs } = await getHomeData('en')
 
   // First published project with both a before and after image drives the
   // Before/After section. If none exists, the section is skipped.
@@ -35,6 +36,7 @@ export default async function HomePage() {
         />
       ) : null}
       <Testimonials testimonials={testimonials} />
+      <Team team={team} />
       <Faq faqs={faqs} />
       <Contact settings={settings} />
     </main>
