@@ -1,0 +1,30 @@
+# dependencies
+node_modules
+.pnpm-store
+
+# builds
+.next
+dist
+out
+build
+.turbo
+
+# env / secrets
+.env
+.env.local
+.env.*.local
+
+# local database (SQLite dev)
+*.db
+*.db-journal
+*.sqlite
+
+# logs & os
+*.log
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+.idea
