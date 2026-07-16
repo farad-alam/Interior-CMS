@@ -92,6 +92,11 @@ a {
   background: #fff;
   color: var(--brand);
 }
+.btn--outline {
+  background: transparent;
+  border-color: var(--fg);
+  color: var(--fg);
+}
 
 /* ---------- Header ---------- */
 .site-header {
@@ -232,6 +237,66 @@ a {
   flex-wrap: wrap;
   gap: 14px;
   margin-top: 34px;
+}
+
+/* ---------- Hero variant 02 (split) ---------- */
+.hero2 {
+  padding-block: 72px;
+  background: var(--bg);
+}
+.hero2__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.hero2__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--brand);
+  margin: 0 0 18px;
+}
+.hero2__title {
+  font-size: clamp(2.2rem, 4.4vw, 3.5rem);
+  letter-spacing: -0.01em;
+}
+.hero2__subtitle {
+  font-size: 1.15rem;
+  color: var(--muted);
+  margin-top: 20px;
+  max-width: 46ch;
+}
+.hero2__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 32px;
+}
+.hero2__media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.hero2__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (max-width: 900px) {
+  .hero2__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .hero2__media {
+    aspect-ratio: 16 / 10;
+    order: -1;
+  }
 }
 
 /* ---------- Sections ---------- */

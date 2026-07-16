@@ -1,6 +1,8 @@
 import React from 'react'
 import { getHomeData } from '@/lib/getHomeData'
 import { mediaURL, mediaAlt } from '@/lib/media'
+// Hero variants: `Hero` (full-bleed) is active. To use the split layout,
+// swap this import to `Hero02` and the <Hero .../> tag below to <Hero02 .../>.
 import { Hero } from '@/components/sections/Hero'
 import { Services } from '@/components/sections/Services'
 import { Projects } from '@/components/sections/Projects'
