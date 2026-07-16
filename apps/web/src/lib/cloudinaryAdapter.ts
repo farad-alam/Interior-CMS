@@ -27,7 +27,10 @@ export const cloudinaryAdapter = (): Adapter => {
 
     generateURL: ({ data }) => data?.cloudinaryURL ?? '',
 
-    handleUpload: async ({ file }) => {
+    // `data` is the doc being created — Payload's HandleUpload type only
+    // allows returning its built-in FileData shape, so custom fields like
+    // cloudinaryURL must be written onto `data` directly (it's typed `any`).
+    handleUpload: async ({ data, file }) => {
       const resourceType = file.mimeType?.startsWith('video/') ? 'video' : 'image'
 
       const result = await new Promise<{ secure_url: string; public_id: string }>(
@@ -43,10 +46,8 @@ export const cloudinaryAdapter = (): Adapter => {
         },
       )
 
-      return {
-        cloudinaryURL: result.secure_url,
-        cloudinaryPublicId: result.public_id,
-      }
+      data.cloudinaryURL = result.secure_url
+      data.cloudinaryPublicId = result.public_id
     },
 
     handleDelete: async ({ doc }) => {
