@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary'
 import type { Adapter } from '@payloadcms/plugin-cloud-storage/types'
+import type { FileData, TypeWithID } from 'payload'
 
 /**
  * Payload has no official Cloudinary adapter, so this implements the
@@ -27,10 +28,11 @@ export const cloudinaryAdapter = (): Adapter => {
 
     generateURL: ({ data }) => data?.cloudinaryURL ?? '',
 
-    // `data` is the doc being created — Payload's HandleUpload type only
-    // allows returning its built-in FileData shape, so custom fields like
-    // cloudinaryURL must be written onto `data` directly (it's typed `any`).
-    handleUpload: async ({ data, file }) => {
+    // The cloud-storage plugin persists whatever handleUpload RETURNS (it
+    // merges the returned object via payload.update in an afterChange hook) —
+    // mutating `data` has no effect. Payload's HandleUpload type only permits
+    // returning built-in FileData, so the custom cloudinary fields are cast on.
+    handleUpload: async ({ file }) => {
       const resourceType = file.mimeType?.startsWith('video/') ? 'video' : 'image'
 
       const result = await new Promise<{ secure_url: string; public_id: string }>(
@@ -46,8 +48,10 @@ export const cloudinaryAdapter = (): Adapter => {
         },
       )
 
-      data.cloudinaryURL = result.secure_url
-      data.cloudinaryPublicId = result.public_id
+      return {
+        cloudinaryURL: result.secure_url,
+        cloudinaryPublicId: result.public_id,
+      } as unknown as Partial<FileData & TypeWithID>
     },
 
     handleDelete: async ({ doc }) => {

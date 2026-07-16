@@ -23,6 +23,8 @@ import { cloudinaryAdapter } from './lib/cloudinaryAdapter'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const hasCloudinary = Boolean(process.env.CLOUDINARY_CLOUD_NAME)
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -57,29 +59,32 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  // Zero-setup SQLite for local dev when DATABASE_URL isn't set; a real
-  // client deployment sets DATABASE_URL to its free Neon project (plan
-  // Phase 0.4), which switches this to Postgres automatically.
+  // Postgres (Neon) is used for BOTH local dev and production — one shared
+  // database, so local and the live site always show the same content.
+  // `push: false` disables dev-mode schema auto-sync so migrations are the
+  // single source of truth; this prevents a local field change from silently
+  // altering the live schema. Schema changes => `payload migrate:create` then
+  // `payload migrate` (the build applies them automatically on deploy).
+  // SQLite remains a zero-setup fallback only if DATABASE_URL is ever unset.
   db: process.env.DATABASE_URL
-    ? postgresAdapter({ pool: { connectionString: process.env.DATABASE_URL } })
+    ? postgresAdapter({ push: false, pool: { connectionString: process.env.DATABASE_URL } })
     : sqliteAdapter({ client: { url: process.env.DATABASE_URI || 'file:./payload.db' } }),
   sharp,
   plugins: [
-    // Cloudinary handles media only when its keys are present (i.e. in
-    // production / when you've set CLOUDINARY_* — plan Phase 0.4/11).
-    // Without them, local dev falls back to Payload's built-in disk storage
-    // so the app runs fully offline with no external dependency.
-    ...(process.env.CLOUDINARY_CLOUD_NAME
-      ? [
-          cloudStoragePlugin({
-            collections: {
-              media: {
-                adapter: cloudinaryAdapter(),
-                disableLocalStorage: true,
-              },
-            },
-          }),
-        ]
-      : []),
+    // Cloudinary media (plan Phase 0.4/11). `enabled` toggles the actual
+    // upload behaviour on the presence of keys (falls back to local disk when
+    // absent), but `alwaysInsertFields` keeps the cloudinary columns in the
+    // schema either way — so the DB schema and migrations are identical across
+    // every environment and can't drift on whether the keys happen to be set.
+    cloudStoragePlugin({
+      enabled: hasCloudinary,
+      alwaysInsertFields: true,
+      collections: {
+        media: {
+          adapter: cloudinaryAdapter(),
+          disableLocalStorage: hasCloudinary,
+        },
+      },
+    }),
   ],
 })

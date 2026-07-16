@@ -1,5 +1,6 @@
 import * as migration_20260716_064941_initial from './20260716_064941_initial';
 import * as migration_20260716_190021_add_about from './20260716_190021_add_about';
+import * as migration_20260716_192151_add_cloudinary_fields from './20260716_192151_add_cloudinary_fields';
 
 export const migrations = [
   {
@@ -10,6 +11,11 @@ export const migrations = [
   {
     up: migration_20260716_190021_add_about.up,
     down: migration_20260716_190021_add_about.down,
-    name: '20260716_190021_add_about'
+    name: '20260716_190021_add_about',
+  },
+  {
+    up: migration_20260716_192151_add_cloudinary_fields.up,
+    down: migration_20260716_192151_add_cloudinary_fields.down,
+    name: '20260716_192151_add_cloudinary_fields'
   },
 ];
