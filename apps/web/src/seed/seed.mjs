@@ -137,7 +137,6 @@ async function main() {
   console.log('→ site settings')
   await updateGlobal(token, 'site-settings', {
     siteName: 'Atelier Noor',
-    heroVariant: 'hero01',
     primaryColor: '#C9A227',
     whatsappNumber: '966500000000',
     hero: {
@@ -152,6 +151,20 @@ async function main() {
       image: heroImg,
     },
     social: { instagram: 'https://instagram.com', facebook: 'https://facebook.com' },
+  })
+
+  console.log('→ home page builder')
+  await updateGlobal(token, 'homepage', {
+    sections: [
+      { blockType: 'hero', variant: 'hero01' },
+      { blockType: 'services', variant: 'services01' },
+      { blockType: 'projects', variant: 'projects01' },
+      { blockType: 'beforeAfter', variant: 'beforeAfter01' },
+      { blockType: 'testimonials', variant: 'testimonials01' },
+      { blockType: 'team', variant: 'team01' },
+      { blockType: 'faq', variant: 'faq01' },
+      { blockType: 'contact', variant: 'contact01' },
+    ],
   })
 
   console.log('✓ seed complete')

@@ -9,8 +9,9 @@ export type SiteLocale = 'en' | 'ar'
 export async function getHomeData(locale: SiteLocale = 'en') {
   const payload = await getPayloadClient()
 
-  const [settings, services, projects, testimonials, team, faqs] = await Promise.all([
+  const [settings, homepage, services, projects, testimonials, team, faqs] = await Promise.all([
     payload.findGlobal({ slug: 'site-settings', locale, depth: 1 }),
+    payload.findGlobal({ slug: 'homepage', locale, depth: 0 }),
     payload.find({ collection: 'services', locale, sort: 'order', limit: 100, depth: 1 }),
     payload.find({
       collection: 'projects',
@@ -27,6 +28,7 @@ export async function getHomeData(locale: SiteLocale = 'en') {
 
   return {
     settings,
+    homepage,
     services: services.docs,
     projects: projects.docs,
     testimonials: testimonials.docs,

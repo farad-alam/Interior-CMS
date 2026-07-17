@@ -22,19 +22,6 @@ export const SiteSettings: GlobalConfig = {
     { name: 'siteName', type: 'text', required: true, localized: true },
     { name: 'logo', type: 'upload', relationTo: 'media' },
     {
-      name: 'heroVariant',
-      type: 'select',
-      defaultValue: 'hero01',
-      required: true,
-      admin: {
-        description: 'Choose the homepage hero layout. The content below is used by both.',
-      },
-      options: [
-        { label: 'Full-bleed image (Hero 01)', value: 'hero01' },
-        { label: 'Split — text beside image (Hero 02)', value: 'hero02' },
-      ],
-    },
-    {
       name: 'hero',
       type: 'group',
       admin: { description: 'The big first section on the homepage.' },

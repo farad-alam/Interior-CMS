@@ -18,6 +18,7 @@ import { Faqs } from './collections/Faqs'
 import { Posts } from './collections/Posts'
 import { Leads } from './collections/Leads'
 import { SiteSettings } from './globals/SiteSettings'
+import { Homepage } from './globals/Homepage'
 import { cloudinaryAdapter } from './lib/cloudinaryAdapter'
 
 const filename = fileURLToPath(import.meta.url)
@@ -44,7 +45,7 @@ export default buildConfig({
     Posts,
     Leads,
   ],
-  globals: [SiteSettings],
+  globals: [SiteSettings, Homepage],
   // Bilingual by default — the target market is Saudi Arabia (plan Phase 10).
   // Any field marked `localized: true` gets a separate EN and AR value.
   localization: {
