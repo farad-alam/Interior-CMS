@@ -1,9 +1,9 @@
 import React from 'react'
 import { getHomeData } from '@/lib/getHomeData'
 import { mediaURL, mediaAlt } from '@/lib/media'
-// Hero variants: `Hero` (full-bleed) is active. To use the split layout,
-// swap this import to `Hero02` and the <Hero .../> tag below to <Hero02 .../>.
+// The active hero is chosen in the CMS (Site Settings → Hero Variant), not here.
 import { Hero } from '@/components/sections/Hero'
+import { Hero02 } from '@/components/sections/Hero02'
 import { Services } from '@/components/sections/Services'
 import { Projects } from '@/components/sections/Projects'
 import { BeforeAfter } from '@/components/sections/BeforeAfter'
@@ -23,9 +23,12 @@ export default async function HomePage() {
   // Before/After section. If none exists, the section is skipped.
   const baProject = projects.find((p) => mediaURL(p.beforeImage) && mediaURL(p.afterImage))
 
+  // The hero variant is picked from the CMS (Site Settings → Hero Variant).
+  const HeroSection = settings.heroVariant === 'hero02' ? Hero02 : Hero
+
   return (
     <main>
-      <Hero settings={settings} />
+      <HeroSection settings={settings} />
       <Services services={services} />
       <Projects projects={projects} />
       {baProject ? (

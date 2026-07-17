@@ -137,6 +137,7 @@ async function main() {
   console.log('→ site settings')
   await updateGlobal(token, 'site-settings', {
     siteName: 'Atelier Noor',
+    heroVariant: 'hero01',
     primaryColor: '#C9A227',
     whatsappNumber: '966500000000',
     hero: {

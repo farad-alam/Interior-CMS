@@ -686,6 +686,10 @@ export interface SiteSetting {
   siteName: string;
   logo?: (number | null) | Media;
   /**
+   * Choose the homepage hero layout. The content below is used by both.
+   */
+  heroVariant: 'hero01' | 'hero02';
+  /**
    * The big first section on the homepage.
    */
   hero?: {
@@ -732,6 +736,7 @@ export interface SiteSetting {
 export interface SiteSettingsSelect<T extends boolean = true> {
   siteName?: T;
   logo?: T;
+  heroVariant?: T;
   hero?:
     | T
     | {
